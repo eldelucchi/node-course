@@ -34,8 +34,32 @@ const files = fs.readdir('./', function(err, files){
     else console.log('Result', files);
 });
 console.log(files);
+*/ 
 
-*/
+/* So many things in Node are based off events. Ex: if we have web sever sending and reciving
+    http requests/response, we can listen at a certain port and create an even to respond to 
+    requests. */
 
+// // We don't use the following class very often as the objects created are scoped only in the module that makes it
+const EventEmitter = require('events'); //Notice different naming convention, this is a class, a container for methods that will be used
+// //Create instance of class, an actual object:
+// const emitter = new EventEmitter();
+
+// //Todo: raise and handle 'logging' event that takes (data: message)
+// emitter.on('logging', arg => {
+//     console.log(arg);
+// });
+// emitter.emit('logging', {data: 'Hello'});
+
+const Logger = require('./logger');
+const logger = new Logger();
+
+//Register a listener:
+logger.on('messageLogged', eventArg => {
+    //This function is called when the even is raised.
+    console.log(`Listener called`, eventArg);
+});
+
+logger.log('message'); 
 
  

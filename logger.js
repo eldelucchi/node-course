@@ -1,14 +1,23 @@
+const EventEmitter = require('events'); //Notice different naming convention, this is a class, a container for methods that will be used
+
 // Here we want to send a fake http request to this url endpoint
 var url = 'http://logger.io/log';
 
-function log(message){
-    // Send an http request (fake, high level)
-    console.log(message);
+class Logger extends EventEmitter{
+    log(message){ //When function in a class, no function keyword and it's called a method 
+        // Send an http request (fake, high level)
+        console.log(message);
+    
+        // To RAISE AN EVENT, emit signal that an event has happened.
+        // Add even arguments such as an object with an id and url
+        this.emit('messageLogged', message);
+    }    
 }
 
 //This essentially sets the "log" function to "public" by putting it in on object in exports
-// If you don't want to put it in an object, just module.exports = log
-module.exports.log = log; 
+// If you don't want to put it in an object, just module.exports = log, if you do then module.exports.log = log then it's an object
+//
+module.exports = Logger; 
 // Don't have to call it the same thing when you export:
 //module.exports.endPoint = url;
 
