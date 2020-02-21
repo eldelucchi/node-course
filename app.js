@@ -38,7 +38,7 @@ console.log(files);
 
 /* So many things in Node are based off events. Ex: if we have web sever sending and reciving
     http requests/response, we can listen at a certain port and create an even to respond to 
-    requests. */
+    requests. 
 
 // // We don't use the following class very often as the objects created are scoped only in the module that makes it
 const EventEmitter = require('events'); //Notice different naming convention, this is a class, a container for methods that will be used
@@ -61,5 +61,37 @@ logger.on('messageLogged', eventArg => {
 });
 
 logger.log('message'); 
+
+*/
+
+
+/* Let's try using the HTTP module that's used to create networking applications.
+    How about creating a web server that listens to HTTP requests on a given port?*/
+
+const http = require('http');
+
+const server = http.createServer((request, response) => {
+    if(request.url === '/'){
+        response.write('Hello World');
+        response.end();
+    }
+
+    // If we want to create a backend service for something, we have to handle various routes
+    // In this case, add more ifs
+    if(request.url === '/api/courses'){
+        response.write(JSON.stringify([1, 2, 3]));
+        response.end();
+    }
+});
+
+// IRL, we would not do this, which is responding to the connection event to build an http service, 
+// this is really low level but I'm going to just demonstrate
+// Normally, one would pass a callback function to the createServer() method
+// server.on('connection', socket => {
+//     console.log("new connection");
+// })
+
+server.listen(3000);
+console.log('Listening on port 3000');
 
  
