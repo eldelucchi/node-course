@@ -66,7 +66,7 @@ logger.log('message');
 
 
 /* Let's try using the HTTP module that's used to create networking applications.
-    How about creating a web server that listens to HTTP requests on a given port?*/
+    How about creating a web server that listens to HTTP requests on a given port?
 
 const http = require('http');
 
@@ -94,4 +94,48 @@ const server = http.createServer((request, response) => {
 server.listen(3000);
 console.log('Listening on port 3000');
 
+ */
+
+
+ /* Here follows the part of the tutorial where I'm going to use Express! Express is a Node framework 
+ that I'm going to use to potentially create an application with all that I've learned.*/
+
+ var express = require('express');
+ var app = express();
+
+ //This is a GET request
+ app.get('/', function (request, response) {
+     response.send('Hello World GET');
+     console.log(`Got a ${request.method} request for the homepage`);
+ });
+
+ //This is a POST request
+ app.post('/', function (request, response) {
+    response.send('Hello World POST');
+    console.log(`Got a ${request.method} request for the homepage`);
+});
+
+//This is a DELETE request for the /del_user page
+app.delete('/del_user', function (request, response) {
+    response.send('Hello World DELETE');
+    console.log(`Got a ${request.method} request for /del_user`);
+});
+
+// This responds a GET request for the /list_user page.
+app.get('/list_user', function (request, response) {
+    console.log("Got a GET request for /list_user");
+    response.send('Page Listing');
+ })
  
+ // This responds a GET request for abcd, abxcd, ab123cd, and so on
+ app.get('/ab*cd', function(request, response) {   
+    console.log("Got a GET request for /ab*cd");
+    response.send('Page Pattern Match');
+ })
+
+ var server = app.listen(8081, () => {
+     var host = server.address().address;
+     var port = server.address().port;
+     
+     console.log(`My example app is listening at http://${host}:${port}`);
+ })
