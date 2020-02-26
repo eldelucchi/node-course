@@ -103,6 +103,9 @@ console.log('Listening on port 3000');
  var express = require('express');
  var app = express();
 
+ //This line adds the functionality to serve static files
+ app.use(express.static('public')); //'public' is the file containing the static resources
+
  //This is a GET request
  app.get('/', function (request, response) {
      response.send('Hello World GET');
@@ -132,6 +135,21 @@ app.get('/list_user', function (request, response) {
     console.log("Got a GET request for /ab*cd");
     response.send('Page Pattern Match');
  })
+
+// Doing more with GET. This will route for a form in HTML sending input.
+app.get('/index.html', function(req, res){
+    res.sendFile(__dirname + '/' + 'index.html');
+});
+app.get('/process_get', (req, res) => {
+    //Preparing the output in JSON format
+    responseJSON = {
+        first_name: req.query.first_name,
+        last_name: req.query.last_name
+    };
+    console.log(responseJSON);
+    res.end(JSON.stringify(responseJSON));
+});
+
 
  var server = app.listen(8081, () => {
      var host = server.address().address;
